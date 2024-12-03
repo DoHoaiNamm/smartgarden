@@ -1,0 +1,396 @@
+:root {
+  --primary-color: #3498db;
+  --primary-dark: #2980b9;
+  --accent-color: #f1c40f;
+  --bgColorMenu: #1d1d27;
+  --bgColorItem: #ff8c00;
+  --text-light: #f4f6f7;
+}
+
+
+/* Nội dung chính phía trên video */
+.container {
+  position: relative;
+  z-index: 1; /* Nội dung nằm trên video */
+}
+
+/* Reset mặc định */
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden; /* Ẩn thanh cuộn nếu video lớn */
+  font-family: 'Poppins', sans-serif;
+}
+ 
+/* Làm nổi bật tiêu đề từng phần */
+.section-title {
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 20px;
+  color: #ffffff; /* Màu chữ trắng để nổi bật */
+  background: rgba(0, 0, 0, 0.5); /* Nền đen mờ */
+  padding: 10px 15px;
+  border-radius: 8px;
+  display: inline-block;
+}
+
+
+body {
+  background-image: url('images/background.jpg'); /* Thay đổi đường dẫn ảnh */
+  background-size: cover; /* Ảnh phủ kín toàn màn hình */
+  background-position: center; /* Đặt ảnh ở giữa màn hình */
+  background-repeat: no-repeat; /* Không lặp ảnh */
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  padding: 0;
+  height: 100vh; /* Đảm bảo chiều cao full màn hình */
+  overflow: hidden;
+}
+@media screen and (max-width: 768px) {
+  body {
+    background-image: url('images/background-small.jpg'); /* Thay đổi ảnh nhỏ hơn */
+    background-size: contain; /* Ảnh được căn chỉnh phù hợp */
+  }
+}
+.chart-title {
+  position: absolute;
+  top: 50%; /* Căn giữa theo chiều dọc */
+  left: 50%; /* Căn giữa theo chiều ngang */
+  transform: translate(-50%, -50%); /* Đảm bảo chữ ở chính giữa */
+  color: #ffffff; /* Màu chữ trắng */
+  font-size: 24px;
+  font-weight: bold;
+  background: rgba(0, 0, 0, 0.6); /* Nền đen mờ */
+  padding: 10px 20px; /* Khoảng cách giữa chữ và viền */
+  border-radius: 8px; /* Bo góc */
+  text-align: center;
+}
+.chart-container {
+  background-color: rgba(255, 255, 255, 0.9); /* Nền trắng trong suốt */
+  border-radius: 12px; /* Bo góc mềm mại */
+  padding: 20px; /* Khoảng cách bên trong */
+  margin: 20px auto; /* Căn giữa và khoảng cách trên/dưới */
+  max-width: 900px; /* Chiều rộng tối đa */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* Đổ bóng để làm nổi bật */
+}
+
+.chart-title {
+  text-align: center;
+  font-size: 22px; /* Tăng kích thước tiêu đề */
+  font-weight: bold;
+  color: #2980b9; /* Màu xanh biển để dễ nhìn */
+  margin-bottom: 15px; /* Khoảng cách dưới */
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2); /* Đổ bóng nhẹ cho chữ */
+}
+
+.chart-container {
+  position: relative;
+  max-width: 95%; /* Tăng độ rộng tối đa */
+  height: 500px; /* Tăng chiều cao */
+  margin: 20px auto;
+  background: rgba(255, 255, 255, 0.9); /* Giữ nền trắng */
+  padding: 30px; /* Tăng padding để có thêm khoảng trống xung quanh */
+  border-radius: 12px; /* Bo góc mềm mại */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Tăng độ nổi */
+  overflow: hidden;
+}
+
+/* Đảm bảo canvas (vùng biểu đồ) luôn chiếm toàn bộ không gian */
+.chart-container canvas {
+  width: 100% !important; /* Chiều rộng chiếm toàn bộ container */
+  height: 100% !important; /* Chiều cao chiếm toàn bộ container */
+}
+
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.device-monitor {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Tự co giãn theo chiều rộng màn hình */
+  gap: 20px; /* Khoảng cách giữa các ô */
+  padding: 20px;
+  background: none; /* Loại bỏ nền trắng của container */
+  border-radius: 0; /* Loại bỏ bo góc container */
+  box-shadow: none; /* Loại bỏ đổ bóng của container */
+}
+
+.device {
+  background: rgba(0, 0, 0, 0.5); /* Nền trong suốt với màu đen mờ */
+  padding: 15px;
+  border-radius: 10px; /* Giữ bo góc nhẹ cho từng thẻ */
+  text-align: center; /* Căn giữa nội dung */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Đổ bóng nhẹ để thêm chiều sâu */
+  transition: transform 0.3s, box-shadow 0.3s; /* Hiệu ứng hover */
+}
+
+.device:hover {
+  transform: translateY(-5px); /* Nhấc lên khi hover */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5); /* Đổ bóng mạnh hơn khi hover */
+}
+
+.device h3 {
+  font-size: 18px; /* Kích thước tiêu đề */
+  font-weight: bold; /* Làm nổi bật */
+  color: #ffffff; /* Chữ trắng để nổi bật trên nền tối */
+  margin-bottom: 10px; /* Khoảng cách dưới */
+  text-transform: uppercase; /* Chữ in hoa */
+}
+
+.device p {
+  font-size: 16px; /* Kích thước chữ */
+  color: #e0e0e0; /* Chữ màu xám nhạt để dễ đọc */
+  margin: 5px 0; /* Khoảng cách giữa các dòng */
+}
+
+/* Đáp ứng màn hình nhỏ */
+@media screen and (max-width: 768px) {
+  .device-monitor {
+      grid-template-columns: 1fr; /* Chỉ hiển thị 1 cột trên màn hình nhỏ */
+  }
+
+  .device {
+      padding: 10px; /* Giảm padding trên thiết bị nhỏ */
+  }
+}
+
+body {
+  background-color: #ecf0f1;
+  font-family: 'Poppins', sans-serif;
+  display: flex;
+  height: 100vh;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.container {
+  flex-grow: 1;
+  width: 100%;
+  padding-top: 80px; /* Đảm bảo nội dung không bị menu che */
+  overflow-y: auto;
+}
+
+
+:root {
+  --bgColorMenu: #1d1d27; /* Màu nền thanh menu */
+  --bgColorItem: #ff8c00; /* Màu nền nút active */
+  --duration: 0.7s;       /* Thời gian hiệu ứng */
+}
+
+.menu {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--bgColorMenu);
+  width: 100%;
+  height: 80px; /* Chiều cao thanh menu */
+  position: fixed;
+  top: 0; /* Đặt menu ở trên cùng */
+  z-index: 1000;
+}
+
+
+.menu__item {
+  all: unset;
+  flex-grow: 1;
+  display: flex;
+  cursor: pointer;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  padding: 10px; /* Giảm hoặc tăng khoảng cách tùy nhu cầu */
+  transition: transform var(--duration);
+}
+
+
+.menu__item::before {
+  content: "";
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: var(--bgColorItem);
+  position: absolute;
+  transform: scale(0);
+  transition: transform var(--duration);
+  z-index: -1;
+}
+
+.menu__item.active {
+  transform: translateY(-20px); /* Hiệu ứng nâng nút active */
+}
+
+.menu__item.active::before {
+  transform: scale(1); /* Nền nút active mở rộng */
+}
+
+.icon {
+  width: 40px; /* Giảm chiều rộng */
+  height: 40px; /* Giảm chiều cao */
+  stroke: white;
+  fill: transparent;
+  stroke-width: 2px;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 400;
+}
+
+
+
+.menu__item.active {
+  transform: translateY(-5px); /* Giảm khoảng nâng để tránh bị che */
+}
+
+@keyframes strok {
+  100% {
+    stroke-dashoffset: 400;
+  }
+}
+
+.menu__border {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 80px;
+  height: 8px;
+  background-color: var(--bgColorItem);
+  transition: transform var(--duration);
+  z-index: 1;
+}
+.menu__item {
+  all: unset;
+  flex-grow: 1;
+  display: flex;
+  cursor: pointer;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  padding: 20px; /* Tăng khoảng cách để logo không bị che */
+  transition: transform var(--duration);
+  margin-bottom: 10px; /* Tạo thêm khoảng cách giữa logo và menu border */
+}
+
+.icon {
+  width: 30px; /* Điều chỉnh kích thước logo */
+  height: 30px;
+  stroke: white;
+  fill: transparent;
+  stroke-width: 2px;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 400;
+}
+
+
+
+body {
+  background-color: #ffb457; /* Màu nền thay đổi */
+  transition: background-color var(--duration);
+}
+
+
+/* Nội dung */
+.main-content {
+  width: 100%;
+  margin-top: 60px;
+  padding: 20px;
+  text-align: center;
+}
+
+.info-section,
+.function-section {
+  margin: 20px 0;
+}
+
+.info-section h2,
+.function-section h2 {
+  font-size: 28px; /* Tăng kích thước chữ */
+  margin-bottom: 10px;
+  color: #ffffff; /* Chuyển màu chữ sang trắng */
+  text-align: center;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); /* Thêm đổ bóng cho chữ */
+  font-weight: bold; /* Làm chữ đậm hơn */
+  background: rgba(0, 0, 0, 0.5); /* Nền đen mờ (tuỳ chọn) */
+  padding: 10px 15px;
+  border-radius: 8px; /* Bo góc nền chữ */
+  display: inline-block; /* Căn chỉnh chữ nằm giữa */
+}
+
+
+.info-cards,
+.function-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.info-card,
+.function-card {
+  background: rgba(255, 255, 255, 0.9); /* Nền trắng gần như đặc hơn */
+  color: #333; /* Màu chữ tối */
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Đổ bóng rõ hơn */
+  text-align: center;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.info-card:hover,
+.function-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.info-card img,
+.function-card img {
+  max-width: 60px;
+  margin-bottom: 10px;
+}
+
+.function-card button {
+  margin-top: 10px;
+  padding: 10px 20px;
+  background-color: var(--primary-color);
+  color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+.function-card button:hover {
+  background-color: var(--accent-color);
+  transform: scale(1.05);
+}
+
+/* Responsive */
+@media screen and (max-width: 768px) {
+  .menu__item {
+    font-size: 14px;
+  }
+
+  .info-cards,
+  .function-cards {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+/* Hiển thị thời gian */
+#timeDisplay {
+  position: fixed;
+  bottom: 10px;
+  left: 10px;
+  background: rgba(0, 0, 0, 0.7); /* Nền đen mờ */
+  color: #ffffff; /* Chữ trắng */
+  padding: 10px 20px;
+  border-radius: 8px; /* Bo góc */
+  font-size: 14px;
+  font-family: 'Poppins', sans-serif;
+}
